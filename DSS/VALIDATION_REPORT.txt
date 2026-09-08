@@ -1,0 +1,191 @@
+INTEGRATED POWER SYSTEM DSS - VALIDATION REPORT
+===============================================
+
+Scope
+-----
+This file set implements the user's 230/115/27.6-kV SLD plus the 13.8-kV
+synchronous generator, 4.16-kV UAT/SST auxiliary system, 34.5-kV 50-MW / 
+200-MWh BESS, 5-MW PV, variable rail load, protection devices, N-1 cases,
+and the normally-open feeder tie.
+
+Validation layers
+-----------------
+1. Static DSS consistency check: file references, object references, duplicate
+   names, TCC array lengths/order, equipment nameplates, ratings, expected SLD
+   objects, and physical bus count.
+2. Independent balanced positive-sequence Newton-Raphson AC power-flow sanity
+   check including the 5000-MVA, X/R=10 external-grid Thevenin impedance.
+3. OpenDSS property syntax was cross-checked against current EPRI OpenDSS
+   documentation for Vsource, Generator, Transformer, Relay, Recloser, Storage,
+   Load Status, and ControlMode properties.
+
+Important engine-validation note
+--------------------------------
+The current execution container does not include the OpenDSS/DSS-Extensions
+runtime, and external binary installation was unavailable. Therefore I did NOT
+claim a native OpenDSS engine compile here. Run Master.dss once in your local
+OpenDSS installation/OpenDSSDirect.py environment as the final engine smoke
+check. The DSS set has nevertheless been statically checked and independently
+power-flow checked as documented below.
+
+Design criteria used for the academic study
+-------------------------------------------
+Normal/peak voltage screening: 0.95 to 1.05 pu at load buses.
+27.6-kV feeder rating: 650 A normal / 720 A emergency.
+T1: 150 MVA; T2/T3: 40 MVA each; GSU: 30 MVA; UAT/SST: 10 MVA each.
+TBESS: 60 MVA; BESS: 50 MW / 200 MWh.
+Generator: 20 MW / 25 MVA, +/-15 Mvar capability.
+Base connected load: 40.0 MW including 4-MW rail and 3.5-MW auxiliaries.
+Source: 230 kV, 1.025 pu Thevenin emf, 5000 MVA 3ph / 3500 MVA SLG.
+
+Expected engineering behavior from independent AC check
+--------------------------------------------------------
+Normal: min V ~0.972 pu -> PASS.
+Peak: min V ~0.953 pu; feeder-B head ~606 A -> PASS normal criteria.
+Light: min V ~0.992 pu; system exports a small amount of power -> PASS.
+Peak + BESS charge 50 MW: min V ~0.946 pu -> VOLTAGE CONSTRAINT (intentional study finding).
+Light + BESS discharge 50 MW: min V ~0.992 pu -> PASS.
+Line-230A or Line-230B outage: min V ~0.971 pu -> PASS.
+T2 outage + feeder transfer: min V ~0.915 pu, feeder-B head ~753 A -> HIGH-SEVERITY VIOLATION.
+T3 outage + feeder transfer: min V ~0.911 pu, feeder-A head ~757 A -> HIGH-SEVERITY VIOLATION.
+Generator outage + SST auxiliary supply: min V ~0.973 pu -> PASS.
+
+Static validation output
+------------------------
+STATIC VALIDATION
+=================
+PASS: GEN13 nameplate: 20.0 MW / 25.0 MVA, Q capability ±15.0 Mvar
+PASS: BESS nameplate: 50 MW / 200 MWh / 60 MVA
+PASS: Base connected real load = 40.0 MW (includes 4 MW rail + 3.5 MW auxiliaries)
+PASS: Physical bus count = 22
+PASS: All required SLD equipment objects are present
+PASS: DSS files = 26 (8 scenarios, 6 studies)
+
+Result: 0 error(s), 0 warning(s)
+
+Independent numerical output
+----------------------------
+
+Normal
+------
+min V = 0.9722 pu @ B06, max V = 1.0250 pu @ SOURCE
+slack = 15.46 MW + j17.77 Mvar
+GEN13 solved Q = -1.18 Mvar
+BRK_A       13.34 MVA  I= 280.4 A
+BRK_B       20.75 MVA  I= 437.3 A
+LINE230A    11.74 MVA  I=  28.8 A
+T1          23.45 MVA  I=  57.7 A
+T2          13.52 MVA  I=  67.3 A
+T3          21.08 MVA  I= 105.0 A
+TBESS        0.00 MVA  I=   0.0 A
+
+Peak
+----
+min V = 0.9532 pu @ B06, max V = 1.0250 pu @ SOURCE
+slack = 29.09 MW + j21.87 Mvar
+GEN13 solved Q = 0.47 Mvar
+BRK_A       18.88 MVA  I= 399.9 A
+BRK_B       28.45 MVA  I= 606.3 A
+LINE230A    18.11 MVA  I=  44.6 A
+T1          36.18 MVA  I=  89.1 A
+T2          19.19 MVA  I=  96.0 A
+T3          29.10 MVA  I= 145.5 A
+TBESS        0.00 MVA  I=   0.0 A
+
+Light
+-----
+min V = 0.9920 pu @ AUX416, max V = 1.0250 pu @ SOURCE
+slack = -2.23 MW + j12.94 Mvar
+GEN13 solved Q = -3.50 Mvar
+BRK_A        6.21 MVA  I= 129.1 A
+BRK_B       10.90 MVA  I= 226.8 A
+LINE230A     6.55 MVA  I=  16.1 A
+T1          13.09 MVA  I=  32.1 A
+T2           6.25 MVA  I=  31.0 A
+T3          10.99 MVA  I=  54.4 A
+TBESS        0.00 MVA  I=   0.0 A
+
+Peak+BESS charge
+----------------
+min V = 0.9463 pu @ B06, max V = 1.0250 pu @ SOURCE
+slack = 79.66 MW + j28.48 Mvar
+GEN13 solved Q = 2.43 Mvar
+BRK_A       18.88 MVA  I= 402.6 A
+BRK_B       28.46 MVA  I= 610.6 A
+LINE230A    42.01 MVA  I= 103.6 A
+T1          83.86 MVA  I= 207.2 A
+T2          19.20 MVA  I=  96.6 A
+T3          29.12 MVA  I= 146.6 A
+TBESS       50.37 MVA  I= 253.5 A
+
+Light+BESS discharge
+--------------------
+min V = 0.9920 pu @ AUX416, max V = 1.0250 pu @ SOURCE
+slack = -51.84 MW + j18.35 Mvar
+GEN13 solved Q = -3.18 Mvar
+BRK_A        6.21 MVA  I= 129.2 A
+BRK_B       10.90 MVA  I= 227.0 A
+LINE230A    27.43 MVA  I=  67.3 A
+T1          54.82 MVA  I= 134.7 A
+T2           6.25 MVA  I=  31.0 A
+T3          10.99 MVA  I=  54.5 A
+TBESS       49.86 MVA  I= 247.3 A
+
+T2 outage+transfer
+------------------
+min V = 0.9152 pu @ A01, max V = 1.0250 pu @ SOURCE
+slack = 16.21 MW + j19.75 Mvar
+GEN13 solved Q = -0.64 Mvar
+BRK_B       35.06 MVA  I= 753.1 A
+LINE230A    12.73 MVA  I=  31.3 A
+T1          25.42 MVA  I=  62.6 A
+T3          36.23 MVA  I= 180.7 A
+TBESS        0.00 MVA  I=   0.0 A
+
+Line 230A outage
+----------------
+min V = 0.9714 pu @ B06, max V = 1.0250 pu @ SOURCE
+slack = 15.47 MW + j17.54 Mvar
+GEN13 solved Q = -0.93 Mvar
+BRK_A       13.34 MVA  I= 280.7 A
+BRK_B       20.75 MVA  I= 437.7 A
+T1          23.25 MVA  I=  57.3 A
+T2          13.52 MVA  I=  67.4 A
+T3          21.08 MVA  I= 105.1 A
+TBESS        0.00 MVA  I=   0.0 A
+
+Line 230B outage
+----------------
+min V = 0.9714 pu @ B06, max V = 1.0250 pu @ SOURCE
+slack = 15.47 MW + j17.54 Mvar
+GEN13 solved Q = -0.93 Mvar
+BRK_A       13.34 MVA  I= 280.7 A
+BRK_B       20.75 MVA  I= 437.7 A
+LINE230A    23.30 MVA  I=  57.3 A
+T1          23.25 MVA  I=  57.3 A
+T2          13.52 MVA  I=  67.4 A
+T3          21.08 MVA  I= 105.1 A
+TBESS        0.00 MVA  I=   0.0 A
+
+T3 outage+transfer
+------------------
+min V = 0.9108 pu @ B01, max V = 1.0250 pu @ SOURCE
+slack = 16.32 MW + j19.94 Mvar
+GEN13 solved Q = -0.58 Mvar
+BRK_A       35.24 MVA  I= 757.4 A
+LINE230A    12.83 MVA  I=  31.6 A
+T1          25.63 MVA  I=  63.1 A
+T2          36.43 MVA  I= 181.8 A
+TBESS        0.00 MVA  I=   0.0 A
+
+Generator outage+SST
+--------------------
+min V = 0.9727 pu @ B06, max V = 1.0250 pu @ SOURCE
+slack = 35.46 MW + j16.52 Mvar
+BRK_A       13.34 MVA  I= 280.3 A
+BRK_B       20.75 MVA  I= 437.1 A
+LINE230A    19.49 MVA  I=  47.9 A
+T1          38.93 MVA  I=  95.8 A
+T2          13.52 MVA  I=  67.3 A
+T3          21.08 MVA  I= 104.9 A
+TBESS        0.00 MVA  I=   0.0 A

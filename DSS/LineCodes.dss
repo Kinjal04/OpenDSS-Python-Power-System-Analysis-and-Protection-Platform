@@ -1,0 +1,9 @@
+! ============================================================================
+! LINE CODES
+! Sequence impedances are synthetic but engineering-plausible study values.
+! R/X values are ohm/km.
+! ============================================================================
+
+New LineCode.LC230 NPhases=3 R1=0.030 X1=0.300 R0=0.200 X0=0.800 C1=0 C0=0 NormAmps=1000 EmergAmps=1200 Units=km
+New LineCode.LC27 NPhases=3 R1=0.120 X1=0.220 R0=0.350 X0=0.650 C1=0 C0=0 NormAmps=650 EmergAmps=720 Units=km
+New LineCode.LC_SWITCH NPhases=3 R1=0.001 X1=0.001 R0=0.003 X0=0.003 C1=0 C0=0 NormAmps=2000 EmergAmps=2500 Units=km

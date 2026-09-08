@@ -1,0 +1,24 @@
+! ============================================================================
+! SYNTHETIC TCC CURVES FOR PROJECT COORDINATION STUDIES
+! C_Array values are multiples of pickup/rated current. T_Array is seconds.
+! ============================================================================
+
+! Inverse-time relay curve used by 51 and 51N functions.
+New TCC_Curve.RELAY_NI Npts=10
+~ C_Array=(1.10 1.25 1.50 2.00 3.00 5.00 8.00 12.00 20.00 30.00)
+~ T_Array=(20.0 10.0 6.0 3.0 1.50 0.70 0.38 0.25 0.16 0.12)
+
+! Recloser fast curve (first shot / fuse-saving).
+New TCC_Curve.REC_FAST Npts=9
+~ C_Array=(1.10 1.30 1.60 2.00 3.00 5.00 8.00 12.00 20.00)
+~ T_Array=(2.00 1.00 0.50 0.28 0.13 0.070 0.045 0.035 0.030)
+
+! Recloser delayed curve (coordination with downstream fuse).
+New TCC_Curve.REC_SLOW Npts=9
+~ C_Array=(1.10 1.30 1.60 2.00 3.00 5.00 8.00 12.00 20.00)
+~ T_Array=(12.0 6.00 3.20 1.80 0.80 0.35 0.20 0.14 0.10)
+
+! Representative fuse total-clearing curve for the protected A05 section.
+New TCC_Curve.FUSE_A_CURVE Npts=9
+~ C_Array=(1.20 1.50 2.00 3.00 5.00 8.00 12.00 20.00 30.00)
+~ T_Array=(30.0 10.0 3.50 1.20 0.40 0.18 0.10 0.055 0.040)

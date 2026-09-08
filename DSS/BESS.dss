@@ -1,0 +1,6 @@
+! ============================================================================
+! 50 MW / 200 MWh BESS AT 34.5 kV
+! Positive kW = discharge to grid; negative kW = charging from grid.
+! ============================================================================
+
+New Storage.BESS Bus1=BESS34 Phases=3 kV=34.5 Conn=wye kWrated=50000 kVA=60000 kWhrated=200000 kWhstored=100000 %Reserve=10 State=Idling kW=0 kvar=0 PF=1.0 %EffCharge=96 %EffDischarge=96 %IdlingkW=0.25 ChargeTrigger=0 DischargeTrigger=0 TimeChargeTrig=-1

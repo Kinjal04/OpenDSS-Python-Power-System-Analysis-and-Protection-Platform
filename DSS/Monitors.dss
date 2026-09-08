@@ -1,0 +1,10 @@
+! ============================================================================
+! MONITORS FOR OPTIONAL TIME-SERIES / EVENT STUDIES
+! Mode=1 records power quantities at the selected terminal.
+! ============================================================================
+New Monitor.MON_T1    Element=Transformer.T1 Terminal=1 Mode=1 PPolar=No
+New Monitor.MON_T2    Element=Transformer.T2 Terminal=1 Mode=1 PPolar=No
+New Monitor.MON_T3    Element=Transformer.T3 Terminal=1 Mode=1 PPolar=No
+New Monitor.MON_FDR_A Element=Line.BRK_A      Terminal=1 Mode=1 PPolar=No
+New Monitor.MON_FDR_B Element=Line.BRK_B      Terminal=1 Mode=1 PPolar=No
+New Monitor.MON_BESS  Element=Transformer.TBESS Terminal=1 Mode=1 PPolar=No

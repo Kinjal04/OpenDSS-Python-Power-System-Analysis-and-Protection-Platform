@@ -1,0 +1,46 @@
+! ============================================================================
+! INTEGRATED POWER SYSTEM ANALYSIS, PROTECTION & OPERATIONS PLATFORM
+! Master OpenDSS file
+! System: 230 / 115 / 27.6 / 13.8 / 4.16 / 34.5 kV, 60 Hz
+! ============================================================================
+
+Clear
+Set DefaultBaseFrequency=60
+
+! 230-kV external grid represented by the Circuit source Thevenin equivalent.
+! Source strength: 5000 MVA 3-phase, 3500 MVA single-line-to-ground.
+New Circuit.IPSAPO Bus1=GRID230 BasekV=230 pu=1.025 Phases=3 Frequency=60 MVAsc3=5000 MVAsc1=3500 X1R1=10 X0R0=3
+
+Redirect LineCodes.dss
+Redirect Lines.dss
+Redirect Transformers.dss
+Redirect LoadShapes.dss
+Redirect Loads.dss
+Redirect Generation.dss
+Redirect BESS.dss
+Redirect ProtectionCurves.dss
+Redirect Protection.dss
+Redirect Faults.dss
+Redirect Monitors.dss
+
+Set VoltageBases=[230 115 34.5 27.6 13.8 4.16]
+CalcVoltageBases
+
+! Normal topology / operating state.
+! Controls are OFF for engineering snapshots so protection devices do not
+! unintentionally clear overloads before Python can record the study result.
+Open Line.TIE_AB 1
+Edit Transformer.UAT Enabled=Yes
+Edit Transformer.SST Enabled=No
+Edit Storage.BESS State=Idling kW=0 kvar=0
+
+Set Mode=Snap
+Set ControlMode=Off
+Set LoadMult=1.0
+
+! Newton is more robust for this mixed subtransmission/distribution model.
+Set Algorithm=Newton
+Set Tolerance=0.0001
+Set MaxIterations=50
+Set MaxControlIter=20
+Solve

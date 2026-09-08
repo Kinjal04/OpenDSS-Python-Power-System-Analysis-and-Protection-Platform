@@ -1,0 +1,37 @@
+! ============================================================================
+! TRANSMISSION + DISTRIBUTION LINES AND SWITCHING ELEMENTS
+! ============================================================================
+
+! ---------------------------------------------------------------------------
+! TWO PARALLEL 230-kV SUPPLY CIRCUITS
+! CB-230A/CB-230B are represented by opening terminal 1 of the associated line.
+! ---------------------------------------------------------------------------
+New Line.LINE230A Bus1=GRID230 Bus2=BUS230 Phases=3 LineCode=LC230 Length=20 Units=km
+New Line.LINE230B Bus1=GRID230 Bus2=BUS230 Phases=3 LineCode=LC230 Length=20 Units=km
+
+! ---------------------------------------------------------------------------
+! FEEDER A
+! BRK_A is the physical feeder-head breaker used by the SCADA/control layer.
+! Recloser A controls Line.A03. Fuse A controls Line.A05.
+! ---------------------------------------------------------------------------
+New Line.BRK_A Bus1=BUS27A Bus2=A_HEAD Phases=3 Switch=Yes LineCode=LC_SWITCH Length=0.001 Units=km
+New Line.A01   Bus1=A_HEAD Bus2=A01 Phases=3 LineCode=LC27 Length=1.0 Units=km
+New Line.A02   Bus1=A01    Bus2=A02 Phases=3 LineCode=LC27 Length=1.2 Units=km
+New Line.A03   Bus1=A02    Bus2=A03 Phases=3 LineCode=LC27 Length=1.4 Units=km
+New Line.A04   Bus1=A03    Bus2=A04 Phases=3 LineCode=LC27 Length=1.2 Units=km
+New Line.A05   Bus1=A04    Bus2=A05 Phases=3 LineCode=LC27 Length=1.0 Units=km
+New Line.A06   Bus1=A05    Bus2=A06 Phases=3 LineCode=LC27 Length=0.8 Units=km
+
+! ---------------------------------------------------------------------------
+! FEEDER B
+! ---------------------------------------------------------------------------
+New Line.BRK_B Bus1=BUS27B Bus2=B_HEAD Phases=3 Switch=Yes LineCode=LC_SWITCH Length=0.001 Units=km
+New Line.B01   Bus1=B_HEAD Bus2=B01 Phases=3 LineCode=LC27 Length=1.0 Units=km
+New Line.B02   Bus1=B01    Bus2=B02 Phases=3 LineCode=LC27 Length=1.2 Units=km
+New Line.B03   Bus1=B02    Bus2=B03 Phases=3 LineCode=LC27 Length=1.4 Units=km
+New Line.B04   Bus1=B03    Bus2=B04 Phases=3 LineCode=LC27 Length=1.2 Units=km
+New Line.B05   Bus1=B04    Bus2=B05 Phases=3 LineCode=LC27 Length=1.0 Units=km
+New Line.B06   Bus1=B05    Bus2=B06 Phases=3 LineCode=LC27 Length=0.8 Units=km
+
+! Normally-open feeder tie used for post-fault restoration.
+New Line.TIE_AB Bus1=A06 Bus2=B06 Phases=3 Switch=Yes LineCode=LC_SWITCH Length=0.001 Units=km

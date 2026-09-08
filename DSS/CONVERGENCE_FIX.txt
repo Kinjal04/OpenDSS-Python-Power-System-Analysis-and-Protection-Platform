@@ -1,0 +1,15 @@
+CONVERGENCE FIX
+===============
+
+Changes from the previous package:
+1. Generator.GEN13 changed from Model=3 (constant P / regulated V) to Model=1
+   (constant P at PF=1.0) for the base power-flow model.
+2. Generator synchronous-machine Xd, Xdp, Xdpp and H parameters retained for
+   fault/dynamics metadata and short-circuit contribution.
+3. Master.dss now uses Set Algorithm=Newton.
+4. Tolerance explicitly set to 0.0001.
+5. MaxIterations set to 50 and MaxControlIter to 20. Controls remain OFF in
+   engineering snapshot studies.
+6. Added Studies/Convergence_Check.dss.
+
+Compile DSS/Master.dss only. Do not open/compile the redirected files separately.

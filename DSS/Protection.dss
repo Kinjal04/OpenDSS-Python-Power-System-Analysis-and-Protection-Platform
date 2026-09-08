@@ -1,0 +1,23 @@
+! ============================================================================
+! PROTECTION OBJECTS
+! 50/51 = phase instantaneous / inverse-time overcurrent
+! 50N/51N = ground instantaneous / inverse-time overcurrent
+! ============================================================================
+
+! 230-kV main transformer relay, conceptually located at BUS230 / CB-T1.
+New Relay.RLY_230 MonitoredObj=Transformer.T1 MonitoredTerm=1 SwitchedObj=Transformer.T1 SwitchedTerm=1 Type=Current PhaseCurve=RELAY_NI GroundCurve=RELAY_NI PhaseTrip=500 GroundTrip=120 PhaseInst=1200 GroundInst=500 TDPhase=0.65 TDGround=0.55 BreakerTime=0.05 Shots=1 RecloseIntervals=NONE
+
+! Feeder A head relay + breaker.
+New Relay.RLY_FDR_A MonitoredObj=Line.BRK_A MonitoredTerm=1 SwitchedObj=Line.BRK_A SwitchedTerm=1 Type=Current PhaseCurve=RELAY_NI GroundCurve=RELAY_NI PhaseTrip=650 GroundTrip=220 PhaseInst=8000 GroundInst=3000 TDPhase=1.20 TDGround=2.00 BreakerTime=0.05 Shots=1 RecloseIntervals=NONE
+
+! Feeder B head relay + breaker.
+New Relay.RLY_FDR_B MonitoredObj=Line.BRK_B MonitoredTerm=1 SwitchedObj=Line.BRK_B SwitchedTerm=1 Type=Current PhaseCurve=RELAY_NI GroundCurve=RELAY_NI PhaseTrip=650 GroundTrip=220 PhaseInst=8000 GroundInst=3000 TDPhase=1.20 TDGround=2.00 BreakerTime=0.05 Shots=1 RecloseIntervals=NONE
+
+! Recloser A controls the A02-A03 section.
+New Recloser.REC_A MonitoredObj=Line.A03 MonitoredTerm=1 SwitchedObj=Line.A03 SwitchedTerm=1 NumFast=1 PhaseFast=REC_FAST PhaseDelayed=REC_SLOW GroundFast=REC_FAST GroundDelayed=REC_SLOW PhaseTrip=450 GroundTrip=180 PhaseInst=6000 GroundInst=2500 TDPhFast=1.0 TDGrFast=1.0 TDPhDelayed=2.0 TDGrDelayed=2.5 Shots=4 RecloseIntervals=(0.5 2.0 2.0) Delay=0.04
+
+! Recloser B controls the B02-B03 section.
+New Recloser.REC_B MonitoredObj=Line.B03 MonitoredTerm=1 SwitchedObj=Line.B03 SwitchedTerm=1 NumFast=1 PhaseFast=REC_FAST PhaseDelayed=REC_SLOW GroundFast=REC_FAST GroundDelayed=REC_SLOW PhaseTrip=550 GroundTrip=200 PhaseInst=6000 GroundInst=2500 TDPhFast=1.0 TDGrFast=1.0 TDPhDelayed=2.0 TDGrDelayed=2.5 Shots=4 RecloseIntervals=(0.5 2.0 2.0) Delay=0.04
+
+! Fuse protecting the A05/A06/PV section.
+New Fuse.FUSE_A MonitoredObj=Line.A05 MonitoredTerm=1 SwitchedObj=Line.A05 SwitchedTerm=1 FuseCurve=FUSE_A_CURVE RatedCurrent=250

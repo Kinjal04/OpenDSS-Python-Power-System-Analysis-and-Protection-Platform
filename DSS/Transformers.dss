@@ -1,0 +1,58 @@
+! ============================================================================
+! POWER TRANSFORMERS
+! kVAs are total 3-phase ratings; XHL and losses are in percent.
+! High-voltage breaker functions are represented by opening transformer terminal 1.
+! ============================================================================
+
+! Main grid transformer - conceptual upstream breaker CB-T1
+New Transformer.T1 Phases=3 Windings=2 XHL=10.0 %LoadLoss=0.45 %NoLoadLoss=0.10
+~ Buses=[BUS230 BUS115]
+~ Conns=[wye wye]
+~ kVs=[230 115]
+~ kVAs=[150000 150000]
+
+! 115/27.6-kV distribution transformers - conceptual CB-T2 / CB-T3
+New Transformer.T2 Phases=3 Windings=2 XHL=7.5 %LoadLoss=0.60 %NoLoadLoss=0.15
+~ Buses=[BUS115 BUS27A]
+~ Conns=[wye wye]
+~ kVs=[115 27.6]
+~ kVAs=[40000 40000]
+
+New Transformer.T3 Phases=3 Windings=2 XHL=7.5 %LoadLoss=0.60 %NoLoadLoss=0.15
+~ Buses=[BUS115 BUS27B]
+~ Conns=[wye wye]
+~ kVs=[115 27.6]
+~ kVAs=[40000 40000]
+
+! Generator step-up transformer - conceptual CB-GEN on 115-kV side.
+! Grounded-wye HV / delta generator side is representative of a GSU connection.
+New Transformer.GSU Phases=3 Windings=2 XHL=10.0 %LoadLoss=0.60 %NoLoadLoss=0.10
+~ Buses=[BUS115 GEN13]
+~ Conns=[wye delta]
+~ kVs=[115 13.8]
+~ kVAs=[30000 30000]
+
+! Unit auxiliary transformer: normal preferred source for AUX416.
+New Transformer.UAT Phases=3 Windings=2 XHL=6.0 %LoadLoss=0.80 %NoLoadLoss=0.20
+~ Buses=[GEN13 AUX416]
+~ Conns=[delta wye]
+~ kVs=[13.8 4.16]
+~ kVAs=[10000 10000]
+~ Enabled=Yes
+
+! Station service transformer: standby backup source.
+! Enabled=No represents CB-SST normally open.
+New Transformer.SST Phases=3 Windings=2 XHL=7.0 %LoadLoss=0.80 %NoLoadLoss=0.20
+~ Buses=[BUS115 AUX416]
+~ Conns=[wye wye]
+~ kVs=[115 4.16]
+~ kVAs=[10000 10000]
+~ Enabled=No
+
+! 50-MW / 200-MWh BESS interconnection transformer.
+! Conceptual CB-BESS is represented by opening terminal 1 of TBESS.
+New Transformer.TBESS Phases=3 Windings=2 XHL=8.0 %LoadLoss=0.60 %NoLoadLoss=0.10
+~ Buses=[BUS115 BESS34]
+~ Conns=[wye wye]
+~ kVs=[115 34.5]
+~ kVAs=[60000 60000]

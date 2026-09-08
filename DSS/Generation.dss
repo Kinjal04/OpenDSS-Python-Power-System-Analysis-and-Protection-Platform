@@ -1,0 +1,12 @@
+! ============================================================================
+! GENERATION + PV
+! ============================================================================
+
+! 20-MW synchronous generator at 13.8 kV.
+! Base snapshot model uses constant kW at fixed power factor for robust convergence.
+! Xd/Xdp/Xdpp are retained so the synchronous machine still contributes correctly
+! to short-circuit / fault studies.
+New Generator.GEN13 Bus1=GEN13 Phases=3 Conn=wye kV=13.8 kW=20000 PF=1.0 kVA=25000 Model=1 Status=Fixed Vminpu=0.90 Vmaxpu=1.10 Xd=1.80 Xdp=0.30 Xdpp=0.20 H=3.0
+
+! 5-MW feeder-A PV plant connected at A05.
+New PVSystem.PV5MW Bus1=A05 Phases=3 kV=27.6 Irradiance=1.0 Pmpp=5000 kVA=5500 PF=1.0 %CutIn=1 %CutOut=1

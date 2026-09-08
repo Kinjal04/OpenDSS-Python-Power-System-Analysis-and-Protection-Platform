@@ -1,0 +1,32 @@
+! ============================================================================
+! LOADS
+! Base feeder demand is approximately 36.5 MW including the 4-MW rail case;
+! plant auxiliaries add 3.5 MW. Loads are balanced 3-phase constant-PQ.
+! ============================================================================
+
+! ------------------------------- FEEDER A -----------------------------------
+New Load.LA01 Bus1=A01 Phases=3 kV=27.6 kW=3000 PF=0.95 Model=1
+New Load.LA02 Bus1=A02 Phases=3 kV=27.6 kW=3200 PF=0.95 Model=1
+New Load.LA03 Bus1=A03 Phases=3 kV=27.6 kW=2800 PF=0.95 Model=1
+New Load.LA04 Bus1=A04 Phases=3 kV=27.6 kW=2500 PF=0.95 Model=1
+New Load.LA05 Bus1=A05 Phases=3 kV=27.6 kW=2500 PF=0.95 Model=1
+New Load.LA06 Bus1=A06 Phases=3 kV=27.6 kW=3000 PF=0.95 Model=1
+
+! ------------------------------- FEEDER B -----------------------------------
+New Load.LB01 Bus1=B01 Phases=3 kV=27.6 kW=2800 PF=0.95 Model=1
+New Load.LB02 Bus1=B02 Phases=3 kV=27.6 kW=3000 PF=0.95 Model=1
+New Load.LB03 Bus1=B03 Phases=3 kV=27.6 kW=2700 PF=0.95 Model=1
+New Load.LB04 Bus1=B04 Phases=3 kV=27.6 kW=2000 PF=0.95 Model=1
+New Load.LB05 Bus1=B05 Phases=3 kV=27.6 kW=2500 PF=0.95 Model=1
+New Load.LB06 Bus1=B06 Phases=3 kV=27.6 kW=2500 PF=0.95 Model=1
+
+! Rail traction AC-interface model.
+! Status=Exempt prevents the global LoadMult from changing this value while still
+! allowing an assigned daily/yearly shape later. Python can explicitly set 1 MW,
+! 4 MW, or 8 MW for the snapshot rail operating cases.
+New Load.RAIL Bus1=B04 Phases=3 kV=27.6 kW=4000 PF=0.97 Model=1 Status=Exempt
+
+! --------------------------- PLANT AUXILIARIES ------------------------------
+New Load.AUX_PUMP  Bus1=AUX416 Phases=3 kV=4.16 kW=1500 PF=0.88 Model=1
+New Load.AUX_MOTOR Bus1=AUX416 Phases=3 kV=4.16 kW=1200 PF=0.90 Model=1
+New Load.AUX_MCC   Bus1=AUX416 Phases=3 kV=4.16 kW=800  PF=0.92 Model=1

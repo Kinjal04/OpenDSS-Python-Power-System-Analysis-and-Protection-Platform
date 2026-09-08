@@ -1,0 +1,13 @@
+! ============================================================================
+! DISABLED FAULT TEMPLATES FOR SCADA / SWITCHING DEMONSTRATIONS
+! Normal fault-current studies should use OpenDSS FaultStudy mode from Python.
+! ============================================================================
+
+! 3-phase bolted-to-ground template at feeder-A end.
+New Fault.FLT_A06_3PH Phases=3 Bus1=A06 R=0.001 Enabled=No
+
+! Single-line-to-ground fault on phase 1.
+New Fault.FLT_A06_SLG Phases=1 Bus1=A06.1 R=0.001 Enabled=No
+
+! Line-to-line fault between phases 1 and 2.
+New Fault.FLT_A06_LL Phases=1 Bus1=A06.1 Bus2=A06.2 R=0.001 Enabled=No
